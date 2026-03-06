@@ -46,7 +46,7 @@ Each benchmark creates a fresh sandbox, runs `echo "benchmark"`, and records wal
 
 Sponsors enable independent benchmark infrastructure. **Sponsors cannot influence methodology or results.**
 
-<a href="https://archil.com/"><img src="./sponsors/archil-logo.webp" alt="Archil Logo" height="40"></a>
+<a href="https://archil.com/"><img src="./sponsors/archil-logo.png" alt="Archil Logo" height="40"></a>
 
 [Learn more →](./SPONSORSHIP.md)
 
