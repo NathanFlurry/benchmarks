@@ -4,15 +4,9 @@ ComputeSDK Benchmarks is open source. We welcome contributions that improve meas
 
 ## For Sandbox Providers
 
-Want your provider included in the benchmark? 
+Want your provider included in the benchmark? **Submit a PR.** We accept community contributions to add providers.
 
-**Option 1: Become a Sponsor**
-
-Sponsorship includes full integration and maintenance. See [SPONSORSHIP.md](./SPONSORSHIP.md).
-
-**Option 2: Submit a PR**
-
-We accept community contributions to add providers. Requirements:
+### Requirements
 
 1. **Public SDK**: Your provider must have a publicly available SDK (npm package preferred)
 2. **Standard Interface**: Must support basic sandbox operations (create, run command, destroy)
@@ -108,3 +102,4 @@ npm run bench:direct -- --iterations 5
 ## Questions
 
 - **General questions**: Open a GitHub issue
+- **Sponsorship inquiries**: See [SPONSORSHIP.md](./SPONSORSHIP.md) or email garrison@computesdk.com

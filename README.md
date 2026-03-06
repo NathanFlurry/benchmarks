@@ -44,11 +44,11 @@ Each benchmark creates a fresh sandbox, runs `echo "benchmark"`, and records wal
 
 ## Sponsors
 
-Sponsors fund large-scale infrastructure tests. **Sponsors cannot influence methodology or results.**
+Sponsors enable independent benchmark infrastructure. **Sponsors cannot influence methodology or results.**
 
 <a href="https://archil.com/"><img src="./sponsors/archil-logo.webp" alt="Archil Logo" height="40"></a>
 
-[Become a sponsor →](./SPONSORSHIP.md)
+[Learn more →](./SPONSORSHIP.md)
 
 <br>
 
