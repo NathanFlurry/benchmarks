@@ -1,6 +1,6 @@
 # Sponsorship
 
-ComputeSDK Benchmarks is where developers compare sandbox providers. **250,000+ developers** visit our benchmarks annually to make infrastructure decisions.
+ComputeSDK Benchmarks is where developers compare sandbox providers. **Thousands of developers** visit our benchmarks monthly to make infrastructure decisions.
 
 ---
 
