@@ -4,41 +4,50 @@ ComputeSDK Benchmarks is open source. We welcome contributions that improve meas
 
 ## For Sandbox Providers
 
-Want your provider included in the benchmark? **Submit a PR.** We accept community contributions to add providers.
+Want your provider included in the benchmark? This requires two steps:
 
-### Requirements
+### Step 1: Add Your Provider to ComputeSDK
 
-1. **Public SDK**: Your provider must have a publicly available SDK (npm package preferred)
-2. **Standard Interface**: Must support basic sandbox operations (create, run command, destroy)
-3. **Free Tier or Credits**: We need ongoing API access for daily benchmarks
-4. **Documentation**: Clear setup instructions for API keys/credentials
+First, submit a PR to [`computesdk/computesdk`](https://github.com/computesdk/computesdk) adding your provider package to the `packages/` directory. This creates a `@computesdk/<provider>` npm package.
 
-### Adding a Provider (Direct Mode)
+**Example:** See [`packages/e2b`](https://github.com/computesdk/computesdk/tree/main/packages/e2b) for a reference implementation.
 
-1. Create a new SDK wrapper in `src/direct-providers.ts`:
+**Requirements:**
+- Standard interface: `create`, `run`, `destroy` operations
+- TypeScript support
+- Published as `@computesdk/<provider>` on npm
+
+### Step 2: Add to Benchmarks
+
+Once your `@computesdk/<provider>` package is published:
+
+1. Submit a PR to this repo adding your provider to `src/providers.ts`:
 
 ```typescript
-export const yourProvider: DirectBenchmarkConfig = {
-  name: 'your-provider',
-  requiredEnvVars: ['YOUR_API_KEY'],
-  createCompute: () => new YourSDK({
-    apiKey: process.env.YOUR_API_KEY!,
-  }),
-};
+import { yourProvider } from '@computesdk/your-provider';
+
+export const providers: ProviderConfig[] = [
+  // ... existing providers
+  {
+    name: 'your-provider',
+    requiredEnvVars: ['YOUR_API_KEY'],
+    createCompute: () => yourProvider({ apiKey: process.env.YOUR_API_KEY! }),
+  },
+];
 ```
 
-2. Add to the providers array in `src/direct-run.ts`
+2. Update `env.example` with required environment variables
+3. Provide API credentials for ongoing daily benchmarks
+4. We'll review and merge
 
-3. Update `env.example` with required environment variables
+### Ongoing Requirements
 
-4. Submit a PR with:
-   - The code changes
-   - Documentation for obtaining API credentials
-   - Confirmation you can provide ongoing API access
+- **Free Tier or Credits:** We run benchmarks daily. You'll need to provide ongoing API access.
+- **Stability:** Your service should be production-ready. Frequent outages or breaking changes will be removed.
 
-### Adding a Provider (Magic Mode)
+### Questions?
 
-Magic Mode requires integration with the ComputeSDK orchestrator. Open a GitHub issue to discuss.
+Open an issue and tag `@garrison`.
 
 ## For General Contributors
 
