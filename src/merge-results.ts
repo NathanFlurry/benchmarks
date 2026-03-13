@@ -95,15 +95,28 @@ async function main() {
     }
   }
 
-  // For each mode, compute scores, print table, and write combined results
+  // For each mode, deduplicate by provider and compute scores
   for (const [mode, { results }] of Object.entries(byMode)) {
-    console.log(`\nMerging ${results.length} provider results for mode: ${mode}`);
+    // Deduplicate by provider name, keeping the last-seen result.
+    // This handles the case where a cancelled/failed job uploads stale
+    // results from git checkout that contain all providers.
+    const seen = new Map<string, BenchmarkResult>();
+    for (const result of results) {
+      seen.set(result.provider, result);
+    }
+    const deduped = Array.from(seen.values());
+
+    if (deduped.length !== results.length) {
+      console.log(`\nMerging ${deduped.length} provider results for mode: ${mode} (deduplicated from ${results.length})`);
+    } else {
+      console.log(`\nMerging ${deduped.length} provider results for mode: ${mode}`);
+    }
 
     // Compute composite scores across all providers
-    computeCompositeScores(results);
+    computeCompositeScores(deduped);
 
     // Print the combined table
-    printResultsTable(results);
+    printResultsTable(deduped);
 
     // Write combined results
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
@@ -112,7 +125,7 @@ async function main() {
     fs.mkdirSync(resultsDir, { recursive: true });
 
     const outPath = path.join(resultsDir, `${timestamp}.json`);
-    await writeResultsJson(results, outPath);
+    await writeResultsJson(deduped, outPath);
 
     // Copy to latest.json
     const latestPath = path.join(resultsDir, 'latest.json');
