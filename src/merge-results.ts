@@ -74,11 +74,12 @@ async function main() {
 
   console.log(`Found ${jsonFiles.length} result files`);
 
-  // Group results by mode
-  const byMode: Record<string, { results: BenchmarkResult[]; meta: ResultFile }> = {};
+  // Group results by mode, tracking source file size to detect stale multi-provider files
+  const byMode: Record<string, { results: { result: BenchmarkResult; fromSingleProvider: boolean }[] }> = {};
 
   for (const file of jsonFiles) {
     const raw: ResultFile = JSON.parse(fs.readFileSync(file, 'utf-8'));
+    const fromSingleProvider = raw.results.length === 1;
     for (const result of raw.results) {
       // Determine mode from the directory name (e.g. sequential_tti, burst_tti)
       const dirName = path.basename(path.dirname(file));
@@ -89,22 +90,25 @@ async function main() {
       else if (dirName.includes('burst')) mode = 'burst';
 
       if (!byMode[mode]) {
-        byMode[mode] = { results: [], meta: raw };
+        byMode[mode] = { results: [] };
       }
-      byMode[mode].results.push(result);
+      byMode[mode].results.push({ result, fromSingleProvider });
     }
   }
 
   // For each mode, deduplicate by provider and compute scores
   for (const [mode, { results }] of Object.entries(byMode)) {
-    // Deduplicate by provider name, keeping the last-seen result.
-    // This handles the case where a cancelled/failed job uploads stale
-    // results from git checkout that contain all providers.
-    const seen = new Map<string, BenchmarkResult>();
-    for (const result of results) {
-      seen.set(result.provider, result);
+    // Deduplicate by provider name. Prefer results from single-provider files
+    // (fresh per-job results) over multi-provider files (stale combined results
+    // from a previous run that were checked out by git).
+    const seen = new Map<string, { result: BenchmarkResult; fromSingleProvider: boolean }>();
+    for (const entry of results) {
+      const existing = seen.get(entry.result.provider);
+      if (!existing || (entry.fromSingleProvider && !existing.fromSingleProvider)) {
+        seen.set(entry.result.provider, entry);
+      }
     }
-    const deduped = Array.from(seen.values());
+    const deduped = Array.from(seen.values()).map(e => e.result);
 
     if (deduped.length !== results.length) {
       console.log(`\nMerging ${deduped.length} provider results for mode: ${mode} (deduplicated from ${results.length})`);
