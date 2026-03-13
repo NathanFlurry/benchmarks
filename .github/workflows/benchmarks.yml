@@ -58,6 +58,8 @@ jobs:
           node-version: 24
           cache: 'npm'
       - run: npm ci
+      - name: Clear stale results from checkout
+        run: rm -rf results/
       - name: Run benchmark
         env:
           COMPUTESDK_API_KEY: ${{ secrets.COMPUTESDK_API_KEY }}
@@ -92,6 +94,7 @@ jobs:
         with:
           name: results-${{ matrix.provider }}
           path: results/
+          if-no-files-found: ignore
           retention-days: 7
 
   collect:
