@@ -94,6 +94,7 @@ jobs:
         with:
           name: results-${{ matrix.provider }}
           path: results/
+          if-no-files-found: ignore
           retention-days: 7
 
   collect:
