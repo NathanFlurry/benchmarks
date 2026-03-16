@@ -83,11 +83,6 @@ export const providers: ProviderConfig[] = [
     requiredEnvVars: ['SPRITES_TOKEN'],
     createCompute: () => sprites({ apiKey: process.env.SPRITES_TOKEN! }),
   },
-  {
-    name: 'sprites',
-    requiredEnvVars: ['SPRITES_TOKEN'],
-    createCompute: () => sprites({ apiKey: process.env.SPRITES_TOKEN! }),
-  },
   // --- Automatic mode (via ComputeSDK gateway) ---
   // {
   //   name: 'railway',
