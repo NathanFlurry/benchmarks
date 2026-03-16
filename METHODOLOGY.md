@@ -51,7 +51,7 @@ const start = performance.now();
 const sandbox = await compute.sandbox.create();
 
 // 3. Execute a trivial command to confirm interactivity
-await sandbox.runCommand('echo "benchmark"');
+await sandbox.runCommand('node -v');
 
 // 4. Stop timer
 const ttiMs = performance.now() - start;
@@ -60,13 +60,13 @@ const ttiMs = performance.now() - start;
 await sandbox.destroy();
 ```
 
-### Why `echo "benchmark"`?
+### Why `node -v`?
 
 We use a minimal command to isolate sandbox startup time from command complexity. The command:
 - Has negligible execution time
-- Requires no file system access
 - Produces deterministic output
 - Validates the full request/response cycle
+- Confirms the Node.js runtime is available and functional
 
 ## Test Modes
 
@@ -178,12 +178,9 @@ For each provider, we report:
 
 | Metric | Description |
 |--------|-------------|
-| **Min** | Fastest iteration (best case) |
-| **Max** | Slowest iteration (worst case) |
 | **Median** | Middle value (typical case) |
 | **P95** | 95th percentile (tail latency) |
 | **P99** | 99th percentile (extreme tail) |
-| **Average** | Arithmetic mean |
 | **Success Rate** | Iterations completed without error |
 
 We emphasize **median** as the primary metric because it's robust to outliers and represents the typical developer experience.
@@ -204,15 +201,15 @@ A 200ms median scores 98. A 4,000ms median scores 60. Anything at or above 10s s
 
 The **timingScore** is a weighted sum of individual metric scores. The **successRate** (0–1) acts as a linear multiplier — a provider with 50% success has its score halved.
 
+Before computing timing statistics, the bottom 5% and top 5% of successful iteration times are trimmed to reduce the influence of outliers caused by transient network issues or cold-start anomalies. Min and max values are still computed from the full dataset for display purposes but are not used in scoring.
+
 **Timing weights** (sum to 1.0):
 
 | Metric | Weight | Rationale |
 |--------|--------|-----------|
-| Median | 0.50 | Primary signal — typical developer experience |
-| P95 | 0.20 | Tail latency — consistency matters |
-| Max | 0.15 | Worst-case exposure |
-| P99 | 0.10 | Extreme tail |
-| Min | 0.05 | Best-case capability |
+| Median | 0.60 | Primary signal — typical developer experience |
+| P95 | 0.25 | Tail latency — consistency matters |
+| P99 | 0.15 | Extreme tail — worst-case exposure |
 
 **Why multiplicative?** A provider with lower than 100% success rate shouldn't rank above a provider with 100% success and a slightly slower median. The multiplicative penalty ensures reliability is non-negotiable — a provider must be both fast *and* reliable to score well.
 
@@ -283,12 +280,9 @@ Each test mode generates its own SVG visualization: `sequential_tti.svg`, `stagg
       ],
       "summary": {
         "ttiMs": {
-          "min": 100.0,
-          "max": 150.0,
           "median": 125.0,
           "p95": 140.0,
-          "p99": 148.0,
-          "avg": 124.5
+          "p99": 148.0
         }
       },
       "compositeScore": 96.85,

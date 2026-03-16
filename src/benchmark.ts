@@ -5,22 +5,26 @@ export function percentile(sorted: number[], p: number): number {
   return sorted[Math.min(idx, sorted.length - 1)];
 }
 
-export function computeStats(values: number[]): Stats {
-  if (values.length === 0) return { min: 0, max: 0, median: 0, p95: 0, p99: 0, avg: 0 };
+export function computeStats(values: number[], trimPercent: number = 0.05): Stats {
+  if (values.length === 0) return { median: 0, p95: 0, p99: 0 };
 
   const sorted = [...values].sort((a, b) => a - b);
-  const mid = Math.floor(sorted.length / 2);
-  const median = sorted.length % 2 === 0
-    ? (sorted[mid - 1] + sorted[mid]) / 2
-    : sorted[mid];
+
+  // Trim outliers from both ends
+  const trimCount = Math.floor(sorted.length * trimPercent);
+  const trimmed = trimCount > 0 && sorted.length - 2 * trimCount > 0
+    ? sorted.slice(trimCount, sorted.length - trimCount)
+    : sorted;
+
+  const mid = Math.floor(trimmed.length / 2);
+  const median = trimmed.length % 2 === 0
+    ? (trimmed[mid - 1] + trimmed[mid]) / 2
+    : trimmed[mid];
 
   return {
-    min: sorted[0],
-    max: sorted[sorted.length - 1],
     median,
-    p95: percentile(sorted, 95),
-    p99: percentile(sorted, 99),
-    avg: values.reduce((a, b) => a + b, 0) / values.length,
+    p95: percentile(trimmed, 95),
+    p99: percentile(trimmed, 99),
   };
 }
 
@@ -33,7 +37,7 @@ export async function runBenchmark(config: ProviderConfig): Promise<BenchmarkRes
     return {
       provider: name,
       iterations: [],
-      summary: { ttiMs: { min: 0, max: 0, median: 0, p95: 0, p99: 0, avg: 0 } },
+      summary: { ttiMs: { median: 0, p95: 0, p99: 0 } },
       skipped: true,
       skipReason: `Missing: ${missingVars.join(', ')}`,
     };
@@ -65,7 +69,7 @@ export async function runBenchmark(config: ProviderConfig): Promise<BenchmarkRes
     return {
       provider: name,
       iterations: results,
-      summary: { ttiMs: { min: 0, max: 0, median: 0, p95: 0, p99: 0, avg: 0 } },
+      summary: { ttiMs: { median: 0, p95: 0, p99: 0 } },
       skipped: true,
       skipReason: 'All iterations failed',
     };
