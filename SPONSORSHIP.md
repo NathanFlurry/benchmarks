@@ -8,11 +8,17 @@ ComputeSDK Benchmarks is where developers compare sandbox providers. **Thousands
 
 Your customers care about infrastructure performance. So do the developers choosing providers. Get your brand in front of infrastructure decision-makers at the exact moment they're evaluating sandbox solutions.
 
-### What You Get
+---
 
-**Logo placement** — Prominent logo on benchmarks.computesdk.com (coming soon) with link to your site. Positioned where developers compare providers.
+## Tiers
 
-**Quarterly reports** — Brand presence in our quarterly benchmark reports. "Brought to you by [Your Company]" with case study opportunities.
+### Tier 1 — $10,000/mo
+
+**Logo in benchmark tables** — Prominent logo placement in the "SPONSORED BY" header of all benchmark and pricing SVG tables. This is the highest-visibility placement — shown every time a developer views benchmark results on GitHub or computesdk.com.
+
+**Large logo in README** — Featured placement in the sponsors section of the repository README.
+
+**Quarterly reports** — "Brought to you by [Your Company]" branding in quarterly benchmark reports with case study opportunities.
 
 **Co-marketing** — Joint blog posts, social amplification, and featured use cases showing how you build with sandboxes.
 
@@ -20,7 +26,17 @@ Your customers care about infrastructure performance. So do the developers choos
 
 **Direct input** — Advisory seat on upcoming benchmark categories. Tell us what infrastructure metrics matter to your use case.
 
-### What You Don't Get
+### Tier 2 — $5,000/mo
+
+**Logo in README** — Placement in the sponsors section of the repository README.
+
+**Quarterly reports** — Named in quarterly benchmark reports.
+
+**Early access** — Private benchmark datasets and API access before public release.
+
+---
+
+### What You Don't Get (Either Tier)
 
 **No influence on results.** Ever. Sponsors cannot:
 - Preview benchmark results before publication
@@ -29,6 +45,17 @@ Your customers care about infrastructure performance. So do the developers choos
 - Modify methodology or test conditions
 
 All providers are tested identically. Results reflect actual measured performance.
+
+---
+
+## Current Sponsors
+
+### Tier 1
+- [Archil](https://archil.com/)
+- [Latitude](https://latitude.so/)
+
+### Tier 2
+- [Tigris](https://www.tigrisdata.com/)
 
 ---
 
@@ -53,10 +80,6 @@ No. Results publish automatically via CI. No preview, no exceptions.
 **Can sponsors recommend which providers to benchmark?**
 
 Yes — we take input on roadmap, but final decisions are ours. We'll benchmark providers that matter to developers, not just sponsors.
-
-**Do you offer different sponsorship levels?**
-
-No. One tier, same benefits for all sponsors.
 
 **What's the commitment?**
 
