@@ -20,6 +20,8 @@ Your customers care about infrastructure performance. So do the developers choos
 
 **Large logo in README** — Featured placement in the sponsors section of the repository README.
 
+**Claimed profile** — Add your branding, team responses, and custom benchmarks to your provider profile on computesdk.com.
+
 **Quarterly reports** — "Brought to you by [Your Company]" branding with case study opportunities.
 
 **Co-marketing** — Joint blog posts, social amplification, and featured use cases.
@@ -35,6 +37,8 @@ Your customers care about infrastructure performance. So do the developers choos
 **Logo on unclaimed pages** — Your branding appears on unclaimed provider profiles within your category.
 
 **Logo in README** — Placement in the sponsors section of the repository README.
+
+**Claimed profile** — Add your branding, team responses, and custom benchmarks to your provider profile on computesdk.com.
 
 **Quarterly reports** — Named in quarterly benchmark reports.
 
