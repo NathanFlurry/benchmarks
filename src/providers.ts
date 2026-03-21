@@ -11,7 +11,7 @@ import { namespace } from '@computesdk/namespace';
 import { cloudflare } from '@computesdk/cloudflare';
 import { sprites } from '@computesdk/sprites';
 import { compute } from 'computesdk';
-import { secureExec } from '@computesdk/secure-exec-nodejs';
+import { secureExec } from '@computesdk/secure-exec';
 import type { ProviderConfig } from './types.js';
 
 /**
